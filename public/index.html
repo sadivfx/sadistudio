@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SadiSTUDIO — Native After Effects Presets, No Plugins</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #131313;
+            --surface-2: #1a1a1a;
+            --line: rgba(255, 255, 255, 0.11);
+            --line-strong: rgba(255, 255, 255, 0.28);
+            --text: #f2f2ef;
+            --text-dim: #8c8c89;
+            --text-dimmer: #5a5a58;
+            --white: #ffffff;
+            --danger: #e05555;
+            --success: #4ade80;
+            --disp: 'Space Grotesk', sans-serif;
+            --body: 'Inter', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+            --radius: 2px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { background:var(--bg); scroll-behavior:smooth; }
+        body { background:var(--bg); color:var(--text); font-family:var(--body); -webkit-font-smoothing:antialiased; min-height:100vh; }
+        ::selection { background:var(--white); color:var(--bg); }
+        a { color:inherit; text-decoration:none; }
+        button { font-family:inherit; cursor:pointer; border:none; background:none; }
+        :focus-visible { outline:2px solid var(--white); outline-offset:2px; }
+        input, select, textarea { font-family:inherit; }
+
+        .ruler {
+            height:14px; width:100%;
+            background-image:repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 40px);
+            background-position:0 bottom; background-repeat:repeat-x; background-size:auto 100%;
+            border-bottom:1px solid var(--line); position:relative;
+        }
+        .ruler::after {
+            content:''; position:absolute; inset:0;
+            background-image:repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 200px);
+        }
+
+        header {
+            position:sticky; top:0; z-index:50; background:rgba(10,10,10,0.86);
+            backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+        }
+        .nav-inner {
+            max-width:1360px; margin:0 auto; display:flex; align-items:center;
+            justify-content:space-between; padding:20px 32px;
+        }
+        .wordmark {
+            font-family:var(--disp); font-weight:700; font-size:19px;
+            letter-spacing:0.01em; display:flex; align-items:baseline; gap:2px;
+        }
+        .wordmark .dot { color:var(--text-dim); font-family:var(--mono); font-size:12px; transform:translateY(-4px); }
+        nav.links { display:flex; gap:36px; align-items:center; }
+        nav.links a {
+            font-family:var(--mono); font-size:12px; letter-spacing:0.04em;
+            color:var(--text-dim); text-transform:uppercase; padding:6px 0;
+            border-bottom:1px solid transparent; transition:color .15s, border-color .15s;
+        }
+        nav.links a:hover { color:var(--text); border-color:var(--line-strong); }
+        .btn-primary {
+            font-family:var(--mono); font-size:12px; letter-spacing:0.04em; text-transform:uppercase;
+            background:var(--white); color:var(--bg); padding:9px 18px; border:1px solid var(--white);
+            transition:background .15s,color .15s;
+        }
+        .btn-primary:hover { background:transparent; color:var(--white); }
+        .btn-ghost {
+            font-family:var(--mono); font-size:12px; letter-spacing:0.04em; text-transform:uppercase;
+            background:transparent; color:var(--text); padding:9px 18px; border:1px solid var(--line-strong);
+            transition:border-color .15s, background .15s;
+        }
+        .btn-ghost:hover { border-color:var(--white); background:rgba(255,255,255,0.04); }
+        .btn-danger {
+            font-family:var(--mono); font-size:12px; letter-spacing:0.04em; text-transform:uppercase;
+            background:transparent; color:var(--danger); padding:9px 18px; border:1px solid var(--danger);
+            transition:background .15s, color .15s;
+        }
+        .btn-danger:hover { background:var(--danger); color:var(--white); }
+        .btn-small {
+            font-family:var(--mono); font-size:11px; letter-spacing:0.03em; text-transform:uppercase;
+            padding:7px 14px; border:1px solid var(--line-strong); color:var(--text); transition:all .15s;
+        }
+        .btn-small:hover { border-color:var(--white); background:rgba(255,255,255,0.04); }
+        .btn-small.danger { border-color:var(--danger); color:var(--danger); }
+        .btn-small.danger:hover { background:var(--danger); color:var(--white); }
+
+        .hero { max-width:1360px; margin:0 auto; padding:88px 32px 56px; text-align:center; }
+        .eyebrow {
+            font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+            color:var(--text-dim); display:inline-flex; align-items:center; gap:10px; margin-bottom:26px;
+        }
+        .eyebrow::before,.eyebrow::after { content:''; width:28px; height:1px; background:var(--line-strong); }
+        .hero h1 {
+            font-family:var(--disp); font-weight:700; font-size:clamp(34px,5.4vw,68px);
+            line-height:1.02; letter-spacing:-0.015em; max-width:920px; margin:0 auto 18px;
+        }
+        .hero h1 em { font-style:normal; color:var(--text-dimmer); }
+        .hero p.sub {
+            font-family:var(--body); font-size:16px; color:var(--text-dim);
+            max-width:520px; margin:0 auto 46px; line-height:1.55;
+        }
+
+        .search-wrap { max-width:680px; margin:0 auto; position:relative; }
+        .search-bar {
+            display:flex; align-items:center; gap:14px; background:var(--surface);
+            border:1px solid var(--line-strong); padding:18px 22px; transition:border-color .18s, background .18s;
+        }
+        .search-bar:focus-within { border-color:var(--white); background:var(--surface-2); }
+        .search-bar svg { flex:0 0 auto; opacity:.6; }
+        .search-bar input {
+            flex:1; background:none; border:none; color:var(--text);
+            font-family:var(--body); font-size:16px;
+        }
+        .search-bar input::placeholder { color:var(--text-dimmer); }
+        .search-bar input:focus { outline:none; }
+        .search-kbd {
+            font-family:var(--mono); font-size:11px; color:var(--text-dimmer);
+            border:1px solid var(--line); padding:3px 7px;
+        }
+        .search-meta {
+            font-family:var(--mono); font-size:11px; color:var(--text-dimmer);
+            letter-spacing:.04em; margin-top:12px; text-align:left; padding-left:2px;
+        }
+
+        .filter-row {
+            max-width:1360px; margin:0 auto; padding:34px 32px 22px;
+            display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
+        }
+        .chip {
+            font-family:var(--mono); font-size:12px; letter-spacing:0.03em; text-transform:uppercase;
+            background:transparent; color:var(--text-dim); border:1px solid var(--line);
+            padding:9px 16px; display:inline-flex; align-items:center; gap:8px; transition:all .15s;
+        }
+        .chip .count { color:var(--text-dimmer); }
+        .chip:hover { border-color:var(--line-strong); color:var(--text); }
+        .chip.active { background:var(--white); color:var(--bg); border-color:var(--white); }
+        .chip.active .count { color:rgba(10,10,10,0.55); }
+
+        .status-line {
+            max-width:1360px; margin:0 auto; padding:0 32px 18px;
+            display:flex; justify-content:space-between; align-items:center;
+            font-family:var(--mono); font-size:11px; color:var(--text-dimmer); letter-spacing:.04em;
+        }
+
+        .grid {
+            max-width:1360px; margin:0 auto; padding:6px 32px 100px;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+            background:var(--line); border:1px solid var(--line);
+        }
+        @media (max-width:1100px) { .grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:620px) { .grid { grid-template-columns:1fr; } }
+
+        .card { background:var(--bg); display:flex; flex-direction:column; cursor:pointer; position:relative; }
+        .preview {
+            aspect-ratio:16/10; position:relative; overflow:hidden; background:var(--surface);
+            border-bottom:1px solid var(--line);
+        }
+        .preview canvas { width:100%; height:100%; display:block; }
+        .preview .noplug {
+            position:absolute; top:10px; left:10px;
+            font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
+            background:rgba(10,10,10,0.72); border:1px solid var(--line-strong);
+            padding:4px 7px; color:var(--text-dim); backdrop-filter:blur(4px);
+        }
+        .preview .scrub-track {
+            position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,255,255,0.08);
+        }
+        .preview .scrub-fill {
+            position:absolute; left:0; bottom:0; height:2px; width:0%;
+            background:var(--white); transition:width .05s linear;
+        }
+        .preview .play-badge {
+            position:absolute; bottom:8px; right:10px;
+            font-family:var(--mono); font-size:10px; color:var(--text-dim);
+            opacity:0; transition:opacity .15s;
+        }
+        .card:hover .play-badge { opacity:1; }
+
+        .card-body { padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1; }
+        .card-eyebrow {
+            font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+            color:var(--text-dimmer); display:flex; justify-content:space-between;
+        }
+        .card-title { font-family:var(--disp); font-weight:500; font-size:16.5px; letter-spacing:-0.005em; }
+        .card-meta {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-top:auto; padding-top:10px; border-top:1px solid var(--line);
+            font-family:var(--mono); font-size:11px; color:var(--text-dimmer);
+        }
+        .card-meta .price { color:var(--text); }
+        .card-dl {
+            width:26px; height:26px; border:1px solid var(--line-strong);
+            display:flex; align-items:center; justify-content:center;
+            transition:background .15s, border-color .15s;
+        }
+        .card:hover .card-dl { background:var(--white); border-color:var(--white); }
+        .card:hover .card-dl svg { stroke:var(--bg); }
+        .card-dl svg { stroke:var(--text); transition:stroke .15s; }
+
+        #product-view { display:none; }
+        .breadcrumb {
+            max-width:1360px; margin:0 auto; padding:26px 32px 0;
+            font-family:var(--mono); font-size:12px; color:var(--text-dim);
+            display:flex; align-items:center; gap:8px;
+        }
+        .breadcrumb button { background:none; border:none; color:var(--text-dim); font-family:var(--mono); font-size:12px; display:flex; align-items:center; gap:6px; cursor:pointer; }
+        .breadcrumb button:hover { color:var(--text); }
+
+        .product-hero {
+            max-width:1360px; margin:0 auto; padding:28px 32px 0;
+            display:grid; grid-template-columns:1.35fr 1fr; gap:56px;
+        }
+        @media(max-width:960px) { .product-hero { grid-template-columns:1fr; } }
+
+        .product-preview {
+            aspect-ratio:16/10; background:var(--surface); border:1px solid var(--line);
+            position:relative; overflow:hidden;
+        }
+        .product-preview canvas { width:100%; height:100%; display:block; }
+        .filmstrip {
+            display:flex; gap:1px; margin-top:1px; background:var(--line);
+            border:1px solid var(--line); border-top:none;
+        }
+        .filmstrip .frame {
+            flex:1; aspect-ratio:16/10; background:var(--surface); position:relative;
+            overflow:hidden; cursor:pointer;
+        }
+        .filmstrip .frame canvas { width:100%; height:100%; display:block; opacity:.55; transition:opacity .12s; }
+        .filmstrip .frame:hover canvas { opacity:1; }
+        .filmstrip .frame::after { content:''; position:absolute; inset:0; border:1px solid transparent; }
+        .filmstrip .frame:hover::after { border-color:var(--white); }
+
+        .product-info { display:flex; flex-direction:column; }
+        .badge-noplugin {
+            display:inline-flex; align-items:center; gap:8px; align-self:flex-start;
+            font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+            border:1px solid var(--line-strong); padding:8px 12px; color:var(--text); margin-bottom:22px;
+        }
+        .badge-noplugin::before { content:''; width:6px; height:6px; background:var(--white); border-radius:50%; }
+        .product-eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dimmer); margin-bottom:10px; }
+        .product-title { font-family:var(--disp); font-weight:700; font-size:38px; letter-spacing:-0.015em; margin-bottom:16px; line-height:1.05; }
+        .product-desc { color:var(--text-dim); font-size:15px; line-height:1.65; margin-bottom:28px; max-width:480px; }
+
+        .spec-sheet { border:1px solid var(--line); margin-bottom:28px; }
+        .spec-row {
+            display:flex; justify-content:space-between; padding:12px 16px;
+            border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12.5px;
+        }
+        .spec-row:last-child { border-bottom:none; }
+        .spec-row .k { color:var(--text-dimmer); text-transform:uppercase; letter-spacing:.05em; }
+        .spec-row .v { color:var(--text); }
+
+        .product-actions { display:flex; gap:12px; align-items:center; margin-bottom:8px; }
+        .btn-download {
+            font-family:var(--mono); font-size:13px; letter-spacing:.04em; text-transform:uppercase;
+            background:var(--white); color:var(--bg); border:1px solid var(--white);
+            padding:15px 26px; flex:1; display:flex; align-items:center; justify-content:center; gap:10px;
+            transition:background .15s, color .15s; cursor:pointer;
+        }
+        .btn-download:hover { background:transparent; color:var(--white); }
+        .price-tag { font-family:var(--mono); font-size:13px; color:var(--text-dim); }
+
+        .related { max-width:1360px; margin:0 auto; padding:80px 32px 100px; }
+        .related h3 {
+            font-family:var(--disp); font-weight:500; font-size:15px; text-transform:uppercase;
+            letter-spacing:.06em; color:var(--text-dim); margin-bottom:22px;
+            padding-bottom:16px; border-bottom:1px solid var(--line);
+        }
+        .related-grid {
+            display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+            background:var(--line); border:1px solid var(--line);
+        }
+        @media (max-width:1100px) { .related-grid { grid-template-columns:repeat(2,1fr); } }
+
+        footer {
+            border-top:1px solid var(--line); padding:34px 32px; max-width:1360px; margin:0 auto;
+            display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+        }
+        footer, footer * { font-family:var(--mono); font-size:11px; color:var(--text-dimmer); letter-spacing:.03em; }
+        footer .admin-link { color:var(--text-dimmer); cursor:pointer; transition:color .15s; }
+        footer .admin-link:hover { color:var(--text); }
+
+        #admin-view { display:none; max-width:1360px; margin:0 auto; padding:0 32px 60px; }
+        #admin-login-overlay {
+            display:flex; position:fixed; inset:0; z-index:100; background:rgba(10,10,10,0.94);
+            align-items:center; justify-content:center; backdrop-filter:blur(6px);
+        }
+        #admin-login-overlay.hidden { display:none; }
+        .admin-login-box {
+            background:var(--surface); border:1px solid var(--line-strong); padding:40px 36px;
+            width:100%; max-width:400px; text-align:center;
+        }
+        .admin-login-box h2 { font-family:var(--disp); font-weight:700; font-size:22px; margin-bottom:6px; letter-spacing:-0.01em; }
+        .admin-login-box .sub { font-family:var(--mono); font-size:11px; color:var(--text-dimmer); margin-bottom:24px; letter-spacing:.04em; }
+        .admin-login-box input {
+            width:100%; background:var(--bg); border:1px solid var(--line-strong); color:var(--text);
+            padding:14px 16px; font-family:var(--mono); font-size:14px; margin-bottom:16px;
+            transition:border-color .15s;
+        }
+        .admin-login-box input:focus { border-color:var(--white); outline:none; }
+        .admin-login-box .error { color:var(--danger); font-family:var(--mono); font-size:11px; margin-bottom:12px; min-height:18px; }
+        .admin-tabs {
+            display:flex; gap:2px; border-bottom:1px solid var(--line-strong);
+            margin-bottom:28px; flex-wrap:wrap;
+        }
+        .admin-tab {
+            font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+            color:var(--text-dim); padding:12px 20px; border-bottom:2px solid transparent;
+            transition:all .15s; cursor:pointer;
+        }
+        .admin-tab:hover { color:var(--text); }
+        .admin-tab.active { color:var(--text); border-bottom-color:var(--white); }
+        .admin-panel { display:none; }
+        .admin-panel.active { display:block; }
+        .admin-header-row {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:20px; flex-wrap:wrap; gap:12px;
+        }
+        .admin-header-row h2 { font-family:var(--disp); font-weight:600; font-size:20px; letter-spacing:-0.005em; }
+        .admin-table-wrap { overflow-x:auto; border:1px solid var(--line); }
+        .admin-table {
+            width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px;
+        }
+        .admin-table th, .admin-table td {
+            padding:12px 14px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap;
+        }
+        .admin-table th {
+            color:var(--text-dimmer); text-transform:uppercase; letter-spacing:.05em;
+            font-weight:500; background:var(--surface); position:sticky; top:0;
+        }
+        .admin-table td { color:var(--text); vertical-align:middle; }
+        .admin-table tr:hover td { background:var(--surface); }
+        .admin-table .actions { display:flex; gap:8px; }
+        .admin-table .badge-free {
+            display:inline-block; background:rgba(74,222,128,0.1); color:var(--success);
+            padding:3px 8px; font-size:10px; letter-spacing:.04em; border:1px solid rgba(74,222,128,0.25);
+        }
+        .admin-table .badge-paid {
+            display:inline-block; background:var(--surface-2); color:var(--text-dim);
+            padding:3px 8px; font-size:10px; letter-spacing:.04em; border:1px solid var(--line);
+        }
+        .admin-empty {
+            text-align:center; padding:48px 20px; color:var(--text-dimmer);
+            font-family:var(--mono); font-size:13px; letter-spacing:.03em;
+        }
+        .admin-form {
+            background:var(--surface); border:1px solid var(--line-strong);
+            padding:28px 24px; margin-bottom:24px; display:none;
+        }
+        .admin-form.open { display:block; }
+        .admin-form h3 { font-family:var(--disp); font-weight:600; font-size:16px; margin-bottom:18px; letter-spacing:-0.005em; }
+        .form-row { display:flex; gap:14px; margin-bottom:14px; flex-wrap:wrap; align-items:flex-end; }
+        .form-group { display:flex; flex-direction:column; gap:5px; flex:1; min-width:140px; }
+        .form-group label {
+            font-family:var(--mono); font-size:10px; letter-spacing:.06em;
+            text-transform:uppercase; color:var(--text-dimmer);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            background:var(--bg); border:1px solid var(--line-strong); color:var(--text);
+            padding:10px 12px; font-family:var(--mono); font-size:13px; transition:border-color .15s;
+            resize:vertical;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color:var(--white); outline:none;
+        }
+        .form-group select {
+            appearance:none; cursor:pointer;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238c8c89' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat:no-repeat; background-position:right 10px center; padding-right:32px;
+        }
+        .form-group input[type="checkbox"] { width:18px; height:18px; accent-color:var(--white); cursor:pointer; flex:0 0 auto; }
+        .form-group.checkbox-group { flex-direction:row; align-items:center; gap:8px; min-width:auto; flex:0 0 auto; }
+        .form-actions { display:flex; gap:10px; margin-top:6px; flex-wrap:wrap; }
+
+        .toast {
+            position:fixed; bottom:28px; right:28px; z-index:200;
+            background:var(--surface-2); border:1px solid var(--line-strong);
+            padding:14px 20px; font-family:var(--mono); font-size:12px; letter-spacing:.03em;
+            color:var(--text); opacity:0; transform:translateY(10px);
+            transition:opacity .25s, transform .25s; pointer-events:none;
+        }
+        .toast.show { opacity:1; transform:translateY(0); }
+        .toast.success { border-color:var(--success); color:var(--success); }
+        .toast.error { border-color:var(--danger); color:var(--danger); }
+
+        .modal-overlay {
+            position:fixed; inset:0; z-index:150; background:rgba(10,10,10,0.8);
+            display:flex; align-items:center; justify-content:center; backdrop-filter:blur(3px);
+        }
+        .modal-overlay.hidden { display:none; }
+        .modal-box {
+            background:var(--surface); border:1px solid var(--line-strong);
+            padding:28px 24px; max-width:440px; width:90%; text-align:center;
+        }
+        .modal-box p { font-family:var(--body); font-size:14px; color:var(--text-dim); margin-bottom:18px; line-height:1.5; }
+        .modal-box .modal-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+        .fade-in { animation:fadeIn .35s ease both; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="nav-inner">
+        <div class="wordmark">SADiSTUDIO<span class="dot">·AE</span></div>
+        <nav class="links">
+            <a href="#" id="nav-library">Library</a>
+            <a href="#">Categories</a>
+            <a href="#">About</a>
+        </nav>
+        <div style="display:flex;gap:10px;">
+            <button class="btn-ghost">Log in</button>
+            <button class="btn-primary">Get access</button>
+        </div>
+    </div>
+    <div class="ruler"></div>
+</header>
+
+<main id="home-view">
+    <section class="hero">
+        <div class="eyebrow">Native .ffx &amp; .aep only</div>
+        <h1>Presets for After Effects. <em>No plugins, ever.</em></h1>
+        <p class="sub">A fast, focused library of native effects, transitions and motion graphics. Everything runs on stock After Effects — no third-party installs, no compatibility risk.</p>
+        <div class="search-wrap">
+            <div class="search-bar">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input id="search-input" type="text" placeholder="Search “glitch text”, “whip pan”, “teal &amp; orange”…" autocomplete="off">
+                <span class="search-kbd">/</span>
+            </div>
+            <div class="search-meta" id="search-meta">Assets indexed · instant search</div>
+        </div>
+    </section>
+
+    <div class="filter-row" id="filter-row"></div>
+
+    <div class="status-line">
+        <span id="result-count">Loading assets…</span>
+        <span>Hover a card to scrub the preview</span>
+    </div>
+
+    <div class="grid" id="asset-grid"></div>
+</main>
+
+<main id="product-view">
+    <div class="breadcrumb">
+        <button id="back-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Library
+        </button>
+        <span>/</span>
+        <span id="crumb-category">Text Effects</span>
+    </div>
+    <div class="product-hero">
+        <div>
+            <div class="product-preview"><canvas id="hero-canvas" width="640" height="400"></canvas></div>
+            <div class="filmstrip" id="filmstrip"></div>
+        </div>
+        <div class="product-info">
+            <div class="badge-noplugin">Native After Effects Only — No Plugins Required</div>
+            <div class="product-eyebrow" id="p-eyebrow">Text Effects · Preset Pack</div>
+            <h1 class="product-title" id="p-title">Kinetic Type — Reveal 04</h1>
+            <p class="product-desc" id="p-desc">A native text-animator preset built entirely with keyframes, expressions and track mattes.</p>
+            <div class="spec-sheet" id="spec-sheet"></div>
+            <div class="product-actions">
+                <button class="btn-download">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><line x1="5" y1="21" x2="19" y2="21"/></svg>
+                    Download .ffx
+                </button>
+                <span class="price-tag" id="p-price">$0 · Free</span>
+            </div>
+        </div>
+    </div>
+    <div class="related">
+        <h3>More from <span id="related-cat-label">Text Effects</span></h3>
+        <div class="related-grid" id="related-grid"></div>
+    </div>
+</main>
+
+<div id="admin-login-overlay" class="hidden">
+    <div class="admin-login-box">
+        <h2>Admin Panel</h2>
+        <p class="sub">Enter password to manage the library</p>
+        <input type="password" id="admin-pw-input" placeholder="Password" autocomplete="off">
+        <div class="error" id="admin-login-error"></div>
+        <button class="btn-primary" id="admin-login-btn" style="width:100%;">Unlock</button>
+    </div>
+</div>
+
+<main id="admin-view">
+    <div style="padding-top:28px;">
+        <div class="admin-tabs" id="admin-tabs">
+            <button class="admin-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="admin-tab" data-tab="categories">Categories</button>
+            <button class="admin-tab" data-tab="assets">Assets</button>
+            <button class="admin-tab" data-tab="settings">Settings</button>
+        </div>
+
+        <div class="admin-panel active" id="panel-dashboard">
+            <div class="admin-header-row">
+                <h2>Dashboard</h2>
+                <button class="btn-ghost" id="btn-exit-admin">← Exit Admin</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;" id="dashboard-stats"></div>
+        </div>
+
+        <div class="admin-panel" id="panel-categories">
+            <div class="admin-header-row">
+                <h2>Categories</h2>
+                <button class="btn-primary btn-small" id="btn-add-category">+ Add Category</button>
+            </div>
+            <div class="admin-form" id="form-category">
+                <h3 id="form-category-title">Add Category</h3>
+                <input type="hidden" id="cat-edit-key">
+                <div class="form-row">
+                    <div class="form-group"><label>Key (slug)</label><input type="text" id="cat-key" placeholder="e.g. text"></div>
+                    <div class="form-group"><label>Label</label><input type="text" id="cat-label" placeholder="e.g. Text Effects"></div>
+                    <div class="form-group"><label>Short Code</label><input type="text" id="cat-short" placeholder="e.g. TXT" maxlength="5"></div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary btn-small" id="btn-save-category">Save</button>
+                    <button class="btn-ghost btn-small" id="btn-cancel-category">Cancel</button>
+                </div>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table" id="table-categories">
+                    <thead><tr><th>Key</th><th>Label</th><th>Short</th><th>Assets</th><th>Actions</th></tr></thead>
+                    <tbody id="tbody-categories"></tbody>
+                </table>
+                <div class="admin-empty" id="empty-categories">No categories defined.</div>
+            </div>
+        </div>
+
+        <div class="admin-panel" id="panel-assets">
+            <div class="admin-header-row">
+                <h2>Assets</h2>
+                <button class="btn-primary btn-small" id="btn-add-asset">+ Add Asset</button>
+            </div>
+            <div class="admin-form" id="form-asset">
+                <h3 id="form-asset-title">Add Asset</h3>
+                <input type="hidden" id="asset-edit-id">
+                <div class="form-row">
+                    <div class="form-group"><label>Name</label><input type="text" id="asset-name" placeholder="Asset name"></div>
+                    <div class="form-group"><label>Category</label><select id="asset-cat"></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Comp Name</label><input type="text" id="asset-comp" placeholder="Comp_Example_01"></div>
+                    <div class="form-group"><label>Duration</label><input type="text" id="asset-dur" placeholder="00:00:02:14"></div>
+                    <div class="form-group"><label>FPS</label><input type="number" id="asset-fps" placeholder="30" min="1" max="120"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Price ($)</label><input type="number" id="asset-price" placeholder="14" min="0" step="1"></div>
+                    <div class="form-group checkbox-group"><input type="checkbox" id="asset-free"><label for="asset-free">Free</label></div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn-primary btn-small" id="btn-save-asset">Save</button>
+                    <button class="btn-ghost btn-small" id="btn-cancel-asset">Cancel</button>
+                </div>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table" id="table-assets">
+                    <thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Comp</th><th>Dur</th><th>FPS</th><th>Price</th><th>Actions</th></tr></thead>
+                    <tbody id="tbody-assets"></tbody>
+                </table>
+                <div class="admin-empty" id="empty-assets">No assets yet.</div>
+            </div>
+        </div>
+
+        <div class="admin-panel" id="panel-settings">
+            <div class="admin-header-row"><h2>Settings</h2></div>
+            <div style="background:var(--surface);border:1px solid var(--line-strong);padding:24px;max-width:500px;">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label>Admin Password</label>
+                    <input type="text" id="settings-pw" placeholder="Change password" style="width:100%;">
+                </div>
+                <button class="btn-primary btn-small" id="btn-save-pw">Save Password</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay hidden" id="confirm-modal">
+    <div class="modal-box">
+        <p id="confirm-message">Are you sure?</p>
+        <div class="modal-actions">
+            <button class="btn-danger btn-small" id="confirm-yes">Yes, Delete</button>
+            <button class="btn-ghost btn-small" id="confirm-no">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span>© SADiSTUDIO — All assets native, all previews rendered in-browser</span>
+    <span id="footer-asset-count">Loading…</span>
+    <span class="admin-link" id="footer-admin-link" title="Admin Panel">⚙ Admin</span>
+</footer>
+
+<script>
+// ========== API CLIENT ==========
+const API_BASE = window.location.origin;
+let authToken = sessionStorage.getItem('sadi_token') || null;
+
+function setAuthToken(token) {
+    authToken = token;
+    if (token) sessionStorage.setItem('sadi_token', token);
+    else sessionStorage.removeItem('sadi_token');
+}
+
+function authHeaders() {
+    return authToken ? { 'Authorization': `Bearer ${authToken}` } : {};
+}
+
+async function apiFetch(url, options = {}) {
+    const headers = {
+        'Content-Type': 'application/json',
+        ...options.headers,
+        ...authHeaders()
+    };
+    const response = await fetch(url, { ...options, headers });
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Sunucu hatası.' }));
+        throw new Error(error.error || 'Bilinmeyen hata');
+    }
+    return response.json();
+}
+
+// ========== GLOBAL STATE ==========
+let CATS = {};
+let ASSETS = [];
+let currentFilter = 'all';
+let currentQuery = '';
+
+// ========== CANVAS RENDERER ==========
+function rand(seed) { let x = Math.sin(seed * 999) * 10000; return x - Math.floor(x); }
+function drawFrame(ctx, w, h, cat, seed, t) {
+    ctx.fillStyle = '#131313'; ctx.fillRect(0,0,w,h); ctx.save();
+    if (cat === 'text') {
+        const reveal = Math.min(1, (t*2.2)%1*1.3);
+        ctx.save(); ctx.beginPath(); ctx.rect(0,0,w*reveal,h); ctx.clip();
+        ctx.fillStyle = '#f2f2ef'; ctx.font = `700 ${h*0.26}px 'Space Grotesk', sans-serif`; ctx.textBaseline='middle';
+        ctx.fillText('MOTION', w*0.08, h*0.48); ctx.restore();
+        ctx.strokeStyle='rgba(255,255,255,0.5)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(w*reveal, h*0.18); ctx.lineTo(w*reveal, h*0.8); ctx.stroke();
+    } else if (cat === 'transitions') {
+        const n=6; const off=((t*w*1.4)%(w/n*2))-w/n;
+        for(let i=-1;i<n+1;i++) {
+            const x=i*(w/n)-off;
+            ctx.fillStyle=i%2===0?'#f2f2ef':'#0a0a0a'; ctx.fillRect(x,0,w/n+1,h);
+        }
+    } else if (cat === 'motion') {
+        ctx.save(); ctx.translate(w/2,h/2); const rot=t*Math.PI*2;
+        for(let i=0;i<3;i++) {
+            ctx.save(); ctx.rotate(rot+i*(Math.PI*2/3));
+            ctx.strokeStyle=i===0?'#f2f2ef':'rgba(242,242,239,0.35)'; ctx.lineWidth=i===0?3:1.5;
+            ctx.beginPath(); ctx.arc(0,0,h*0.28+i*10,0,Math.PI*1.4); ctx.stroke(); ctx.restore();
+        }
+        ctx.restore();
+    } else if (cat === 'color') {
+        const grad=ctx.createLinearGradient(0,0,w,0); const shift=t;
+        grad.addColorStop(0,`hsl(${20+shift*10},${40-shift*20}%,${18+shift*4}%)`);
+        grad.addColorStop(0.5,`hsl(${200-shift*20},${10+shift*10}%,${30+shift*6}%)`);
+        grad.addColorStop(1,`hsl(${190},${15}%,${14}%)`);
+        ctx.fillStyle=grad; ctx.fillRect(0,0,w,h);
+    }
+    ctx.restore();
+}
+
+// ========== CARD BUILDER ==========
+function makeCard(asset, catData) {
+    const cat = catData || CATS[asset.cat] || { label: asset.cat || 'Unknown', short: '???' };
+    const card = document.createElement('div');
+    card.className = 'card fade-in';
+    card.dataset.id = asset._id || asset.id;
+    card.innerHTML = `
+        <div class="preview">
+            <canvas width="480" height="300"></canvas>
+            <div class="noplug">No plugins</div>
+            <div class="play-badge">${asset.dur} · ${asset.fps}fps</div>
+            <div class="scrub-track"><div class="scrub-fill"></div></div>
+        </div>
+        <div class="card-body">
+            <div class="card-eyebrow"><span>${cat.label}</span><span>${cat.short}</span></div>
+            <div class="card-title">${asset.name}</div>
+            <div class="card-meta">
+                <span class="price">${asset.price}</span>
+                <div class="card-dl"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><line x1="5" y1="21" x2="19" y2="21"/></svg></div>
+            </div>
+        </div>`;
+    const canvas = card.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const fill = card.querySelector('.scrub-fill');
+    let raf, auto=true, t=rand(asset._id?asset._id.toString().length:asset.id);
+    function tick() {
+        if(auto) t=(t+0.0035)%1;
+        drawFrame(ctx,canvas.width,canvas.height,asset.cat,asset._id?asset._id.toString().length*7:asset.id,t);
+        fill.style.width=(t*100)+'%';
+        raf=requestAnimationFrame(tick);
+    }
+    tick();
+    const preview = card.querySelector('.preview');
+    preview.addEventListener('mousemove', e => { auto=false; const r=preview.getBoundingClientRect(); t=Math.min(0.999,Math.max(0,(e.clientX-r.left)/r.width)); });
+    preview.addEventListener('mouseleave', ()=> { auto=true; });
+    card.addEventListener('click', ()=> openProduct(asset._id || asset.id));
+    card._raf = raf;
+    return card;
+}
+
+// ========== DATA LOADING ==========
+async function loadCategories() {
+    try { CATS = await apiFetch(`${API_BASE}/api/categories`); } catch(e) { CATS={}; }
+}
+async function loadAssets(filter='all', search='') {
+    const params = new URLSearchParams();
+    if(filter!=='all') params.append('category',filter);
+    if(search) params.append('search',search);
+    try { const d = await apiFetch(`${API_BASE}/api/assets?${params}`); ASSETS = d.assets; } catch(e) { ASSETS=[]; }
+}
+async function refreshMainView() {
+    await loadCategories();
+    await loadAssets(currentFilter, currentQuery);
+    renderFilters(); renderGrid(); updateFooter();
+}
+function updateFooter() { document.getElementById('footer-asset-count').textContent = `${ASSETS.length} assets · 0 plugins`; }
+function renderFilters() {
+    const row = document.getElementById('filter-row');
+    let html = `<button class="chip active" data-filter="all">All <span class="count">(${ASSETS.length})</span></button>`;
+    for(const [k,v] of Object.entries(CATS)) html += `<button class="chip" data-filter="${k}">${v.label} <span class="count">(${ASSETS.filter(a=>a.cat===k).length})</span></button>`;
+    row.innerHTML = html;
+}
+function renderGrid() {
+    const grid = document.getElementById('asset-grid');
+    grid.querySelectorAll('.card').forEach(c=>cancelCardRaf(c));
+    grid.innerHTML = '';
+    ASSETS.forEach(a=>grid.appendChild(makeCard(a)));
+    document.getElementById('result-count').textContent = `Showing ${ASSETS.length} assets`;
+}
+
+// ========== PRODUCT ==========
+async function openProduct(id) {
+    const asset = await apiFetch(`${API_BASE}/api/assets/${id}`);
+    if(!asset) return;
+    const cat = CATS[asset.cat]||{label:asset.cat};
+    document.getElementById('home-view').style.display='none';
+    document.getElementById('admin-view').style.display='none';
+    document.getElementById('product-view').style.display='block';
+    window.scrollTo({top:0});
+    document.getElementById('crumb-category').textContent=cat.label;
+    document.getElementById('p-eyebrow').textContent=`${cat.label} · Preset`;
+    document.getElementById('p-title').textContent=asset.name;
+    document.getElementById('p-price').textContent=asset.price;
+    document.getElementById('spec-sheet').innerHTML = [
+        ['Comp name',asset.comp],['Duration',asset.dur],['Frame rate',asset.fps+' fps'],
+        ['AE version','CC 2019+'],['Plugins','None']
+    ].map(([k,v])=>`<div class="spec-row"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+    // Hero canvas
+    const hc=document.getElementById('hero-canvas'), hctx=hc.getContext('2d');
+    if(window.__heroRaf) cancelAnimationFrame(window.__heroRaf);
+    let t=0;
+    (function loop(){ t=(t+0.0025)%1; drawFrame(hctx,640,400,asset.cat,0,t); window.__heroRaf=requestAnimationFrame(loop); })();
+    // Filmstrip
+    const strip=document.getElementById('filmstrip'); strip.innerHTML='';
+    for(let i=0;i<6;i++) { const f=document.createElement('div'); f.className='frame'; const c=document.createElement('canvas'); c.width=160;c.height=100;f.appendChild(c);strip.appendChild(f); drawFrame(c.getContext('2d'),160,100,asset.cat,0,i/6); }
+    // Related
+    const rel = await apiFetch(`${API_BASE}/api/assets?category=${asset.cat}&limit=4`);
+    const relGrid = document.getElementById('related-grid'); relGrid.innerHTML='';
+    rel.assets.filter(a=>a._id!==asset._id).slice(0,4).forEach(a=>relGrid.appendChild(makeCard(a)));
+}
+function closeProduct() {
+    if(window.__heroRaf) cancelAnimationFrame(window.__heroRaf);
+    document.getElementById('product-view').style.display='none';
+    document.getElementById('home-view').style.display='block';
+}
+
+// ========== ADMIN ==========
+async function openAdmin() {
+    if(!authToken) {
+        document.getElementById('admin-login-overlay').classList.remove('hidden');
+        document.getElementById('home-view').style.display='none';
+        document.getElementById('admin-view').style.display='block';
+        return;
+    }
+    document.getElementById('home-view').style.display='none';
+    document.getElementById('product-view').style.display='none';
+    document.getElementById('admin-view').style.display='block';
+    await loadAdminData();
+    switchAdminTab('dashboard');
+}
+function closeAdmin() {
+    document.getElementById('admin-view').style.display='none';
+    document.getElementById('home-view').style.display='block';
+    refreshMainView();
+}
+document.getElementById('btn-exit-admin').addEventListener('click',closeAdmin);
+document.getElementById('footer-admin-link').addEventListener('click',e=>{e.preventDefault();openAdmin();});
+document.getElementById('admin-login-btn').addEventListener('click',async ()=>{
+    const pw=document.getElementById('admin-pw-input').value;
+    try { const d=await apiFetch(`${API_BASE}/api/auth/login`,{method:'POST',body:JSON.stringify({password:pw})}); setAuthToken(d.token); hideAdminLogin(); await loadAdminData(); switchAdminTab('dashboard'); showToast('Hoş geldiniz','success'); }
+    catch(e){ document.getElementById('admin-login-error').textContent=e.message; }
+});
+function showAdminLogin(){ document.getElementById('admin-login-overlay').classList.remove('hidden'); }
+function hideAdminLogin(){ document.getElementById('admin-login-overlay').classList.add('hidden'); }
+
+async function loadAdminData() { await loadCategories(); await loadAssets(); }
+function switchAdminTab(tab){
+    document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+    document.getElementById(`panel-${tab}`).classList.add('active');
+    if(tab==='dashboard') renderDashboard();
+    if(tab==='categories') renderCategories();
+    if(tab==='assets') renderAssets();
+}
+function renderDashboard() {
+    document.getElementById('dashboard-stats').innerHTML = `
+        <div style="background:var(--surface);border:1px solid var(--line);padding:20px;"><div style="font-size:10px;color:var(--text-dimmer);">Total Assets</div><div style="font-size:32px;font-weight:700;">${ASSETS.length}</div></div>
+        <div style="background:var(--surface);border:1px solid var(--line);padding:20px;"><div style="font-size:10px;color:var(--text-dimmer);">Categories</div><div style="font-size:32px;font-weight:700;">${Object.keys(CATS).length}</div></div>`;
+}
+
+// Kategori CRUD (kısa)
+let editingCatKey=null;
+function renderCategories() {
+    const tbody=document.getElementById('tbody-categories');
+    const cats=Object.entries(CATS);
+    tbody.innerHTML = cats.map(([k,v])=>`<tr><td>${k}</td><td>${v.label}</td><td>${v.short}</td><td>${ASSETS.filter(a=>a.cat===k).length}</td><td class="actions"><button class="btn-small" data-edit-cat="${k}">Edit</button><button class="btn-small danger" data-delete-cat="${k}">Delete</button></td></tr>`).join('');
+}
+document.getElementById('btn-add-category').addEventListener('click',()=>{
+    editingCatKey=null; document.getElementById('form-category').classList.add('open');
+});
+document.getElementById('btn-save-category').addEventListener('click',async ()=>{
+    const key=editingCatKey||document.getElementById('cat-key').value.trim().toLowerCase().replace(/\s+/g,'-');
+    const label=document.getElementById('cat-label').value.trim();
+    const short=document.getElementById('cat-short').value.trim().toUpperCase().slice(0,5);
+    if(!key||!label||!short) return showToast('Tüm alanlar zorunlu','error');
+    try {
+        if(editingCatKey) await apiFetch(`${API_BASE}/api/categories/${editingCatKey}`,{method:'PUT',body:JSON.stringify({label,short})});
+        else await apiFetch(`${API_BASE}/api/categories`,{method:'POST',body:JSON.stringify({key,label,short})});
+        document.getElementById('form-category').classList.remove('open');
+        await loadAdminData(); renderCategories(); renderDashboard(); refreshMainView();
+        showToast('Kategori kaydedildi','success');
+    } catch(e){ showToast(e.message,'error'); }
+});
+document.getElementById('tbody-categories').addEventListener('click',async e=>{
+    if(e.target.dataset.deleteCat){
+        const key=e.target.dataset.deleteCat;
+        if(ASSETS.some(a=>a.cat===key)) return showToast('Bu kategoride asset var','error');
+        if(confirm('Silmek istediğinize emin misiniz?')) {
+            await apiFetch(`${API_BASE}/api/categories/${key}`,{method:'DELETE'});
+            await loadAdminData(); renderCategories(); refreshMainView(); showToast('Silindi','success');
+        }
+    }
+});
+
+// Asset CRUD (kısa)
+function renderAssets() {
+    const tbody=document.getElementById('tbody-assets');
+    tbody.innerHTML = ASSETS.map(a=>`<tr><td>#${a._id}</td><td>${a.name}</td><td>${CATS[a.cat]?.label||a.cat}</td><td>${a.comp}</td><td>${a.dur}</td><td>${a.fps}</td><td>${a.price}</td><td class="actions"><button class="btn-small" data-edit-asset="${a._id}">Edit</button><button class="btn-small danger" data-delete-asset="${a._id}">Delete</button></td></tr>`).join('');
+}
+document.getElementById('btn-add-asset').addEventListener('click',()=>{
+    editingAssetId=null; document.getElementById('form-asset').classList.add('open');
+});
+document.getElementById('btn-save-asset').addEventListener('click',async ()=>{
+    const cat=document.getElementById('asset-cat').value;
+    const name=document.getElementById('asset-name').value.trim();
+    const comp=document.getElementById('asset-comp').value.trim();
+    const dur=document.getElementById('asset-dur').value.trim();
+    const fps=parseInt(document.getElementById('asset-fps').value)||30;
+    const free=document.getElementById('asset-free').checked;
+    const price=parseInt(document.getElementById('asset-price').value)||0;
+    if(!cat||!name||!comp||!dur) return showToast('Zorunlu alanlar eksik','error');
+    const body={cat,name,comp,dur,fps,free,price:free?0:price};
+    try {
+        if(editingAssetId) await apiFetch(`${API_BASE}/api/assets/${editingAssetId}`,{method:'PUT',body:JSON.stringify(body)});
+        else await apiFetch(`${API_BASE}/api/assets`,{method:'POST',body:JSON.stringify(body)});
+        document.getElementById('form-asset').classList.remove('open');
+        await loadAdminData(); renderAssets(); renderDashboard(); refreshMainView();
+        showToast('Asset kaydedildi','success');
+    } catch(e){ showToast(e.message,'error'); }
+});
+document.getElementById('tbody-assets').addEventListener('click',async e=>{
+    if(e.target.dataset.deleteAsset){
+        if(confirm('Silmek istediğinize emin misiniz?')) {
+            await apiFetch(`${API_BASE}/api/assets/${e.target.dataset.deleteAsset}`,{method:'DELETE'});
+            await loadAdminData(); renderAssets(); renderDashboard(); refreshMainView(); showToast('Silindi','success');
+        }
+    }
+});
+
+// Şifre değiştir
+document.getElementById('btn-save-pw').addEventListener('click',async ()=>{
+    const pw=document.getElementById('settings-pw').value.trim();
+    if(!pw||pw.length<3) return showToast('Şifre en az 3 karakter','error');
+    try { await apiFetch(`${API_BASE}/api/auth/password`,{method:'PUT',body:JSON.stringify({newPassword:pw})}); showToast('Şifre güncellendi','success'); }
+    catch(e){ showToast(e.message,'error'); }
+});
+
+// Toast
+function showToast(msg,type){ const t=document.getElementById('toast'); t.textContent=msg; t.className=`toast ${type} show`; setTimeout(()=>t.className='toast',2200); }
+
+// Navigation
+document.getElementById('back-btn').addEventListener('click',closeProduct);
+document.getElementById('nav-library').addEventListener('click',e=>{e.preventDefault();closeProduct();refreshMainView();});
+document.getElementById('filter-row').addEventListener('click',async e=>{
+    const chip=e.target.closest('.chip'); if(!chip) return;
+    currentFilter=chip.dataset.filter;
+    await loadAssets(currentFilter,currentQuery);
+    renderFilters(); renderGrid();
+});
+document.getElementById('search-input').addEventListener('input',async e=>{
+    currentQuery=e.target.value;
+    await loadAssets(currentFilter,currentQuery);
+    renderGrid();
+});
+
+// Init
+(async ()=>{ await refreshMainView(); })();
+</script>
+</body>
+</html>
